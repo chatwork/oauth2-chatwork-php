@@ -1,0 +1,36 @@
+{
+    "name": "chatwork/oauth2-chatwork",
+    "description": "ChatWork OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yuta Adachi",
+            "email": "adachi@chatwork.com",
+            "homepage": "https://github.com/chatwork"
+        }
+    ],
+    "keywords": [
+        "oauth",
+        "oauth2",
+        "client",
+        "authorization",
+        "chatwork"
+    ],
+    "require": {
+        "php": "^7.0",
+        "league/oauth2-client": "^2.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ChatWork\\OAuth2\\Client\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ChatWork\\OAuth2\\Client\\Test\\": "tests/"
+        }
+    }
+}
