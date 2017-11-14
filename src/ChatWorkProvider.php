@@ -71,6 +71,26 @@ final class ChatWorkProvider extends AbstractProvider
      */
     protected function createResourceOwner(array $response, AccessToken $token): ResourceOwnerInterface
     {
-        // TODO: Implement createResourceOwner() method.
+        return new ChatWorkResourceOwner(
+            $response['account_id'],
+            $response['room_id'],
+            $response['name'],
+            $response['chatwork_id'],
+            $response['organization_id'],
+            $response['organization_name'],
+            $response['department'],
+            $response['title'],
+            $response['url'],
+            $response['introduction'],
+            $response['mail'],
+            $response['tel_organization'],
+            $response['tel_extension'],
+            $response['tel_mobile'],
+            $response['skype'],
+            $response['facebook'],
+            $response['twitter'],
+            $response['avatar_image_url'],
+            $response['login_mail']
+        );
     }
 }
