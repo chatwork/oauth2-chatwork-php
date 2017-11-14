@@ -19,7 +19,7 @@ final class ChatWorkProvider extends AbstractProvider
      */
     public function getBaseAuthorizationUrl(): string
     {
-        // TODO: Implement getBaseAuthorizationUrl() method.
+        return 'https://www.chatwork.com/packages/oauth2/login.php';
     }
 
     /**
@@ -27,15 +27,16 @@ final class ChatWorkProvider extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params): string
     {
-        // TODO: Implement getBaseAccessTokenUrl() method.
+        return 'https://oauth.chatwork.com/token';
     }
 
     /**
      * @inheritdoc
+     * @see http://developer.chatwork.com/ja/endpoint_me.html
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
-        // TODO: Implement getResourceOwnerDetailsUrl() method.
+        return 'https://api.chatwork.com/v2/me';
     }
 
     /**
@@ -43,7 +44,7 @@ final class ChatWorkProvider extends AbstractProvider
      */
     protected function getDefaultScopes(): array
     {
-        // TODO: Implement getDefaultScopes() method.
+        return ['users.profile.me:read'];
     }
 
     /**
@@ -51,7 +52,18 @@ final class ChatWorkProvider extends AbstractProvider
      */
     protected function checkResponse(ResponseInterface $response, $data): void
     {
-        // TODO: Implement checkResponse() method.
+        if (isset($data['error'])) {
+            throw new IdentityProviderException(
+                sprintf(
+                    'error: %s, error_description: %s, error_uri: %s',
+                    isset($data['error']) ? $data['error'] : '',
+                    isset($data['error_description']) ? $data['error_description'] : '',
+                    isset($data['error_uri']) ? $data['error_uri'] : ''
+                ),
+                $response->getStatusCode(),
+                $response
+            );
+        }
     }
 
     /**
