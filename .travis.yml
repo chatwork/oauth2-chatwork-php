@@ -1,0 +1,13 @@
+sudo: false
+
+language: php
+
+php:
+  - '7.1'
+
+jobs:
+  include:
+    - stage: setup
+      script: composer install --no-interaction
+    - stage: test
+      script: ./vendor/bin/phpunit
