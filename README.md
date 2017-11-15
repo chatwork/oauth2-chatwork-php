@@ -11,3 +11,15 @@ composer require chatwork/oauth2-chatwork-php
 
 
 ## Usage
+
+## Contributing
+
+### Testing
+
+```
+$ make test
+```
+
+## License
+
+The MIT License (MIT).
