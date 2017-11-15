@@ -6,6 +6,7 @@ use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -13,6 +14,22 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class ChatWorkProvider extends AbstractProvider
 {
+    use BearerAuthorizationTrait;
+
+    /**
+     * @param string $clientId
+     * @param string $clientSecret
+     * @param string $redirectUri
+     * @param array $collaborators
+     */
+    public function __construct($clientId, $clientSecret, $redirectUri = '', array $collaborators = [])
+    {
+        parent::__construct([
+            'clientId'     => $clientId,
+            'clientSecret' => $clientSecret,
+            'redirectUri'  => $redirectUri
+        ], $collaborators);
+    }
 
     /**
      * @inheritdoc
