@@ -22,7 +22,7 @@ final class ChatWorkProvider extends AbstractProvider
      * @param string $redirectUri
      * @param array $collaborators
      */
-    public function __construct($clientId, $clientSecret, $redirectUri = '', array $collaborators = [])
+    public function __construct(string $clientId, string $clientSecret, string $redirectUri = '', array $collaborators = [])
     {
         parent::__construct([
             'clientId'     => $clientId,
