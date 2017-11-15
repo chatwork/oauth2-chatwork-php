@@ -5,9 +5,9 @@ language: php
 php:
   - '7.1'
 
-jobs:
-  include:
-    - stage: setup
-      script: composer install --no-interaction
-    - stage: test
-      script: ./vendor/bin/phpunit
+before_script:
+    - composer self-update
+    - composer install --no-interaction
+
+script:
+    - ./vendor/bin/phpunit
