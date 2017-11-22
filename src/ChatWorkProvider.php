@@ -119,12 +119,16 @@ final class ChatWorkProvider extends AbstractProvider
         $options = [
             'headers' => [
                 'content-type'  => 'application/x-www-form-urlencoded',
-                'authorization' => 'Basic ' . base64_encode(urlencode($params['client_id']) . ':' . urlencode($params['client_secret'])),
+                'authorization' => 'Basic ' . base64_encode($params['client_id'] . ':' . $params['client_secret']),
             ]
         ];
 
         if ($this->getAccessTokenMethod() === self::METHOD_POST) {
-            $options['body'] = $this->getAccessTokenBody($params);
+            $options['body'] = $this->getAccessTokenBody([
+                'code'         => $params['code'],
+                'redirect_uri' => $params['redirect_uri'],
+                'grant_type'   => 'authorization_code',
+            ]);
         }
 
         return $options;
