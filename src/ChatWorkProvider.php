@@ -110,4 +110,24 @@ final class ChatWorkProvider extends AbstractProvider
             $response['login_mail']
         );
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getAccessTokenOptions(array $params)
+    {
+        $options = [
+            'headers' => [
+                'content-type'  => 'application/x-www-form-urlencoded',
+                'authorization' => 'Basic ' . base64_encode(urlencode($params['client_id']) . ':' . urlencode($params['client_secret'])),
+            ]
+        ];
+
+        if ($this->getAccessTokenMethod() === self::METHOD_POST) {
+            $options['body'] = $this->getAccessTokenBody($params);
+        }
+
+        return $options;
+    }
+
 }
