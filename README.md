@@ -6,7 +6,7 @@
 ## Installation
 
 ```
-composer require chatwork/oauth2-chatwork-php
+composer require chatwork/oauth2-chatwork
 ```
 
 
