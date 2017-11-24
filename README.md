@@ -40,7 +40,7 @@ $accessToken = $provider->getAccessToken((string) new AuthorizationCode(), [
 
 ```php
 if ($accessToken->hasExpired()) {
-    $refreshedAccessToken = $provider->getAccessToken('refresh_token', [
+    $refreshedAccessToken = $provider->getAccessToken((string) new RefreshToken(), [
         'refresh_token' => $accessToken->getRefreshToken()
     ]);
 }
