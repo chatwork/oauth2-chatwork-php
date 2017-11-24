@@ -116,6 +116,14 @@ final class ChatWorkProvider extends AbstractProvider
     /**
      * @inheritdoc
      */
+    protected function getScopeSeparator()
+    {
+        return ' ';
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function getAccessTokenOptions(array $params)
     {
         $options = [
