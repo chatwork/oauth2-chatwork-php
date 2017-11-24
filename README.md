@@ -14,6 +14,44 @@ composer require chatwork/oauth2-chatwork
 
 ## Usage
 
+### Get our consent page URL
+
+```php
+$provider = new ChatWorkProvider(
+    getenv('OAUTH2_CLIENT_ID'),
+    getenv('OAUTH2_CLIENT_SECRET'),
+    getenv('OAUTH2_REDIRECT_URI')
+);
+
+$url = $provider->getAuthorizationUrl([
+    'scope' => 'users.all:read rooms.all:read_write'
+]);
+```
+
+### Get access token 
+
+```php
+$accessToken = $provider->getAccessToken((string) new AuthorizationCode(), [
+    'code' => $code
+]);
+```
+
+### Refresh access token 
+
+```php
+if ($accessToken->hasExpired()) {
+    $refreshedAccessToken = $provider->getAccessToken('refresh_token', [
+        'refresh_token' => $accessToken->getRefreshToken()
+    ]);
+}
+```
+
+### Get resource owner's profile
+
+```php
+$resource_owner = $provider->getResourceOwner($accessToken);
+```
+
 ## Contributing
 
 ### Testing
