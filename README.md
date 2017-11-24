@@ -56,6 +56,10 @@ $resource_owner = $provider->getResourceOwner($accessToken);
 
 [An example of ChatWork OAuth2 client](https://github.com/ada-u/chatwork-oauth2-client-example)
 
+## ChatWork OAuth2.0 document
+
+[API Document](http://developer.chatwork.com/ja/oauth.html)
+
 ## Contributing
 
 ### Testing
