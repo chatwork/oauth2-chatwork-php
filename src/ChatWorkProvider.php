@@ -2,6 +2,8 @@
 
 namespace ChatWork\OAuth2\Client;
 
+use League\OAuth2\Client\Grant\AuthorizationCode;
+use League\OAuth2\Client\Grant\RefreshToken;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
@@ -124,14 +126,38 @@ final class ChatWorkProvider extends AbstractProvider
         ];
 
         if ($this->getAccessTokenMethod() === self::METHOD_POST) {
-            $options['body'] = $this->getAccessTokenBody([
-                'code'         => $params['code'],
-                'redirect_uri' => $params['redirect_uri'],
-                'grant_type'   => 'authorization_code',
-            ]);
+            $options['body'] = $this->getAccessTokenBody(
+                $params['grant_type'] === (string) new AuthorizationCode() ? $this->getAuthorizationCodeGrantOptions($params) : $this->getRefreshTokenGrantOptions($params)
+            );
         }
 
         return $options;
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    private function getAuthorizationCodeGrantOptions(array $params)
+    {
+        return [
+            'code'         => $params['code'],
+            'redirect_uri' => $params['redirect_uri'],
+            'grant_type'   => (string) new AuthorizationCode()
+        ];
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    private function getRefreshTokenGrantOptions(array $params)
+    {
+        return [
+            'refresh_token' => $params['refresh_token'],
+            'redirect_uri'  => $params['redirect_uri'],
+            'grant_type'    => (string) new RefreshToken()
+        ];
     }
 
 }
