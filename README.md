@@ -28,7 +28,7 @@ $url = $provider->getAuthorizationUrl([
 ]);
 ```
 
-### Get access token 
+### Get an access token 
 
 ```php
 $accessToken = $provider->getAccessToken((string) new AuthorizationCode(), [
@@ -36,7 +36,7 @@ $accessToken = $provider->getAccessToken((string) new AuthorizationCode(), [
 ]);
 ```
 
-### Refresh access token 
+### Refresh a token 
 
 ```php
 if ($accessToken->hasExpired()) {
