@@ -1,6 +1,6 @@
 # ChatWork Provider for OAuth 2.0 Client
 
-[![Build Status](https://travis-ci.com/chatwork/oauth2-chatwork-php.svg?token=vkLmxw1KM6EiS5fWoyu8&branch=master)](https://travis-ci.com/chatwork/oauth2-chatwork-php)
+[![Build Status](https://travis-ci.com/chatwork/oauth2-chatwork-php.svg?branch=master)](https://travis-ci.com/chatwork/oauth2-chatwork-php)
 [![Latest Stable Version](https://poser.pugx.org/chatwork/oauth2-chatwork/version)](https://packagist.org/packages/chatwork/oauth2-chatwork)
 [![License](https://poser.pugx.org/chatwork/oauth2-chatwork/license)](https://packagist.org/packages/chatwork/oauth2-chatwork)
 
@@ -59,6 +59,10 @@ $resource_owner = $provider->getResourceOwner($accessToken);
 ## ChatWork OAuth2.0 document
 
 [API Document](http://developer.chatwork.com/ja/oauth.html)
+
+## Blog
+
+[チャットワークのOAuth2のクライアントをPHPで簡単に実装するためのライブラリを紹介](http://creators-note.chatwork.com/entry/2017/12/15/104133)
 
 ## Contributing
 
