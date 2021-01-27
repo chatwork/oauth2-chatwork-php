@@ -46,7 +46,7 @@ class ChatWorkProviderTest extends TestCase
             parse_str($request->getBody()->getContents(), $param);
             assertArrayNotHasKey('client_id', $param);
             assertArrayNotHasKey('client_secret', $param);
-            assertEquals("Bearer {$expectedToken}", $request->getHeader('Authorization'));
+            assertEquals("Basic {$expectedToken}", $request->getHeader('Authorization')[0]);
         });
         $stack = \GuzzleHttp\HandlerStack::create();
         $stack->push($assertions);
