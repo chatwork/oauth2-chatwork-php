@@ -1,0 +1,18 @@
+name: ci
+
+on: [push]
+
+jobs:
+  run-phpunit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: php-actions/composer@5
+
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@2
+        with:
+          bootstrap: vendor/autoload.php
+          args: --coverage-text
