@@ -1,0 +1,26 @@
+name: ci
+
+on: [push]
+
+jobs:
+  run-phpunit:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: [7.0, 7.1, 7.2, 7.3, 7.4]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: php-actions/composer@v5
+        with:
+          php_version: ${{ matrix.php }}
+
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@v2
+        with:
+          version: 6
+          php_version: ${{ matrix.php }}
+          bootstrap: vendor/autoload.php
+          args: --coverage-text
