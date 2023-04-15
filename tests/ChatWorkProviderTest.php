@@ -7,6 +7,8 @@ use League\OAuth2\Client\Grant\AuthorizationCode;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 
+class Rejection extends \RuntimeException {}
+
 /**
  * @package ChatWork\OAuth2\Client\Test
  */
@@ -40,33 +42,33 @@ class ChatWorkProviderTest extends TestCase
         $clientSecret   = 'test_client_secret';
         $expectedToken  = base64_encode("{$clientId}:{$clientSecret}");
 
-        $actual = [];
+        $actualParam  = [];
+        $actualHeader = [];
 
-        $assert = function (RequestInterface $request) use ($expectedToken, &$actual) {
-            parse_str($request->getBody()->getContents(), $param);
-            $actual['param'] = $param;
-            $actual['authorization_header'] = $request->getHeader('Authorization');
-            throw new \Exception('OK'); // stop before send request
+        $capturer = function (RequestInterface $request) use (&$actualParam, &$actualHeader) {
+            parse_str($request->getBody()->getContents(), $paramParam);
+            $actualHeader = $request->getHeader('Authorization');
+            throw new Rejection; // stop before send request
         };
 
         $provider = new ChatWorkProvider(
-            $clientId, 
-            $clientSecret, 
+            $clientId,
+            $clientSecret,
             'https://example.com/',
             [
-                'httpClient' => $this->createSpyClient($assert)
+                'httpClient' => $this->createSpyClient($capturer)
             ]
         );
-        
+
         try {
             $provider->getAccessToken(new AuthorizationCode(), ['code' => 'authorization_code']);
-        } catch (\Exception $_) {
+        } catch (Rejection $_) {
             // OK
         }
 
-        $this->assertArrayNotHasKey('client_id', $actual['param'],       'request body should not contains "client_id".');
-        $this->assertArrayNotHasKey('client_secret', $actual['param'],   'request body should not contains "client_secret" too.');
-        $this->assertEquals("Basic {$expectedToken}", $actual['authorization_header'][0], 'client MUST use Basic Authentication');
+        $this->assertArrayNotHasKey('client_id', $actualParam,       'request body should not contains "client_id".');
+        $this->assertArrayNotHasKey('client_secret', $actualParam,   'request body should not contains "client_secret" too.');
+        $this->assertEquals("Basic {$expectedToken}", $actualHeader[0], 'client MUST use Basic Authentication');
     }
 
     private function createSpyClient(callable $assetion)
@@ -75,5 +77,5 @@ class ChatWorkProviderTest extends TestCase
         $stack->push(\GuzzleHttp\Middleware::tap($assetion));
         return new \GuzzleHttp\Client(['handler' => $stack]);
     }
-    
+
 }
