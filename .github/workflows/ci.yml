@@ -9,18 +9,35 @@ jobs:
     strategy:
       matrix:
         php: [7.0, 7.1, 7.2, 7.3, 7.4]
+        include:
+          - php: 7.0
+            phpunit: 6
+            composer: 2.2
+          - php: 7.1
+            phpunit: 6
+            composer: 2.2
+          - php: 7.2
+            phpunit: 6
+            composer: 2
+          - php: 7.3
+            phpunit: 9
+            composer: 2
+          - php: 7.4
+            phpunit: 9
+            composer: 2
 
     steps:
       - uses: actions/checkout@v3
 
       - uses: php-actions/composer@v6
         with:
+          version: ${{ matrix.composer }}
           php_version: ${{ matrix.php }}
 
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
         with:
-          version: 6
+          version: ${{ matrix.phpunit }}
           php_version: ${{ matrix.php }}
           bootstrap: vendor/autoload.php
           args: --coverage-text
