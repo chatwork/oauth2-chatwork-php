@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        php: [7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2]
+        php: [7.3, 7.4, 8.0, 8.1, 8.2]
         phpunit: [9]
         composer: [2]
         include:
@@ -20,6 +20,7 @@ jobs:
             composer: 2.2
           - php: 7.2
             phpunit: 6
+            composer: 2
 
     steps:
       - uses: actions/checkout@v3
