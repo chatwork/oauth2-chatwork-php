@@ -7,7 +7,8 @@
         convertWarningsToExceptions="true"
         processIsolation="false"
         stopOnFailure="false"
-        bootstrap="tests/bootstrap.php"
+        bootstrap="vendor/autoload.php"
+        verbose="true"
         colors="true">
     <testsuites>
         <testsuite name="Test Suite">

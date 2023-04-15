@@ -40,15 +40,14 @@ class ChatWorkProviderTest extends TestCase
         $clientSecret   = 'test_client_secret';
         $expectedToken  = base64_encode("{$clientId}:{$clientSecret}");
 
-        $assert = function (RequestInterface $request) use ($expectedToken) {
+        $actual = [];
+
+        $assert = function (RequestInterface $request) use ($expectedToken, &$actual) {
             parse_str($request->getBody()->getContents(), $param);
-            assertArrayNotHasKey('client_id', $param,       'request body should not contains "client_id".');
-            assertArrayNotHasKey('client_secret', $param,   'request body should not contains "client_secret" too.');
-            assertEquals("Basic {$expectedToken}", $request->getHeader('Authorization')[0], 'client MUST use Basic Authentication');
+            $actual['param'] = $param;
+            $actual['authorization_header'] = $request->getHeader('Authorization');
             throw new \Exception('OK'); // stop before send request
         };
-
-        $this->expectExceptionMessage('OK');
 
         $provider = new ChatWorkProvider(
             $clientId, 
@@ -59,7 +58,15 @@ class ChatWorkProviderTest extends TestCase
             ]
         );
         
-        $provider->getAccessToken(new AuthorizationCode(), ['code' => 'authorization_code']);
+        try {
+            $provider->getAccessToken(new AuthorizationCode(), ['code' => 'authorization_code']);
+        } catch (\Exception $_) {
+            // OK
+        }
+
+        $this->assertArrayNotHasKey('client_id', $actual['param'],       'request body should not contains "client_id".');
+        $this->assertArrayNotHasKey('client_secret', $actual['param'],   'request body should not contains "client_secret" too.');
+        $this->assertEquals("Basic {$expectedToken}", $actual['authorization_header'][0], 'client MUST use Basic Authentication');
     }
 
     private function createSpyClient(callable $assetion)
