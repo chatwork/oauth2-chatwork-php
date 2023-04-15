@@ -2,8 +2,6 @@
 
 namespace ChatWork\OAuth2\Client\Test;
 
-require 'vendor/phpunit/phpunit/src/Framework/Assert/Functions.php';
-
 use ChatWork\OAuth2\Client\ChatWorkProvider;
 use League\OAuth2\Client\Grant\AuthorizationCode;
 use PHPUnit\Framework\TestCase;
@@ -44,9 +42,9 @@ class ChatWorkProviderTest extends TestCase
 
         $assert = function (RequestInterface $request) use ($expectedToken) {
             parse_str($request->getBody()->getContents(), $param);
-            \PHPUnit\Framework\assertArrayNotHasKey('client_id', $param,       'request body should not contains "client_id".');
-            \PHPUnit\Framework\assertArrayNotHasKey('client_secret', $param,   'request body should not contains "client_secret" too.');
-            \PHPUnit\Framework\assertEquals("Basic {$expectedToken}", $request->getHeader('Authorization')[0], 'client MUST use Basic Authentication');
+            assertArrayNotHasKey('client_id', $param,       'request body should not contains "client_id".');
+            assertArrayNotHasKey('client_secret', $param,   'request body should not contains "client_secret" too.');
+            assertEquals("Basic {$expectedToken}", $request->getHeader('Authorization')[0], 'client MUST use Basic Authentication');
             throw new \Exception('OK'); // stop before send request
         };
 
