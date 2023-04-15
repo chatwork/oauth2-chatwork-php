@@ -35,5 +35,4 @@ jobs:
         with:
           version: ${{ matrix.phpunit }}
           php_version: ${{ matrix.php }}
-          bootstrap: vendor/autoload.php
           args: --coverage-text
