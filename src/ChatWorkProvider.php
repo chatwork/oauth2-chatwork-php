@@ -2,8 +2,7 @@
 
 namespace ChatWork\OAuth2\Client;
 
-use League\OAuth2\Client\Grant\AuthorizationCode;
-use League\OAuth2\Client\Grant\RefreshToken;
+use League\OAuth2\Client\OptionProvider\HttpBasicAuthOptionProvider;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
@@ -26,11 +25,10 @@ final class ChatWorkProvider extends AbstractProvider
      */
     public function __construct(string $clientId, string $clientSecret, string $redirectUri = '', array $collaborators = [])
     {
-        parent::__construct([
-            'clientId'     => $clientId,
-            'clientSecret' => $clientSecret,
-            'redirectUri'  => $redirectUri
-        ], $collaborators);
+        // use Basic Auth: https://developer.chatwork.com/docs/oauth#%E8%AA%8D%E8%A8%BC
+        $collaborators += ['optionProvider' => new HttpBasicAuthOptionProvider()];
+
+        parent::__construct(compact('clientId', 'clientSecret', 'redirectUri') , $collaborators);
     }
 
     /**
@@ -69,7 +67,7 @@ final class ChatWorkProvider extends AbstractProvider
     /**
      * @inheritdoc
      */
-    protected function checkResponse(ResponseInterface $response, $data): void
+    protected function checkResponse(ResponseInterface $response, $data)
     {
         if (isset($data['error'])) {
             throw new IdentityProviderException(
@@ -116,56 +114,9 @@ final class ChatWorkProvider extends AbstractProvider
     /**
      * @inheritdoc
      */
-    protected function getScopeSeparator()
+    protected function getScopeSeparator(): string
     {
         return ' ';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getAccessTokenOptions(array $params)
-    {
-        $options = [
-            'headers' => [
-                'content-type'  => 'application/x-www-form-urlencoded',
-                'authorization' => 'Basic ' . base64_encode($params['client_id'] . ':' . $params['client_secret']),
-            ]
-        ];
-
-        if ($this->getAccessTokenMethod() === self::METHOD_POST) {
-            $options['body'] = $this->getAccessTokenBody(
-                $params['grant_type'] === (string) new AuthorizationCode() ? $this->getAuthorizationCodeGrantOptions($params) : $this->getRefreshTokenGrantOptions($params)
-            );
-        }
-
-        return $options;
-    }
-
-    /**
-     * @param array $params
-     * @return array
-     */
-    private function getAuthorizationCodeGrantOptions(array $params)
-    {
-        return [
-            'code'         => $params['code'],
-            'redirect_uri' => $params['redirect_uri'],
-            'grant_type'   => (string) new AuthorizationCode()
-        ];
-    }
-
-    /**
-     * @param array $params
-     * @return array
-     */
-    private function getRefreshTokenGrantOptions(array $params)
-    {
-        return [
-            'refresh_token' => $params['refresh_token'],
-            'redirect_uri'  => $params['redirect_uri'],
-            'grant_type'    => (string) new RefreshToken()
-        ];
     }
 
 }
