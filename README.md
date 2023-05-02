@@ -1,6 +1,6 @@
 # ChatWork Provider for OAuth 2.0 Client
 
-[![Build Status](https://travis-ci.com/chatwork/oauth2-chatwork-php.svg?branch=master)](https://travis-ci.com/chatwork/oauth2-chatwork-php)
+[![Build Status](https://github.com/chatwork/oauth2-chatwork-php/actions/workflows/ci.yml/badge.svg)](https://github.com/chatwork/oauth2-chatwork-php/actions/workflows/ci.yml)
 [![Latest Stable Version](https://poser.pugx.org/chatwork/oauth2-chatwork/version)](https://packagist.org/packages/chatwork/oauth2-chatwork)
 [![License](https://poser.pugx.org/chatwork/oauth2-chatwork/license)](https://packagist.org/packages/chatwork/oauth2-chatwork)
 
