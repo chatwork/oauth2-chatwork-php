@@ -9,7 +9,7 @@ test: vendor
 
 .PHONY: lint
 lint: vendor
-	vendor/bin/phpstan analyse -l 0 src tests
+	vendor/bin/phpstan analyse -l 1 src tests
 
 .PHONY: clean
 clean:

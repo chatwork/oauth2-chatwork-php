@@ -46,7 +46,7 @@ class ChatWorkProviderTest extends TestCase
         $actualHeader = [];
 
         $capturer = function (RequestInterface $request) use (&$actualParam, &$actualHeader) {
-            parse_str($request->getBody()->getContents(), $paramParam);
+            parse_str($request->getBody()->getContents(), $actualParam);
             $actualHeader = $request->getHeader('Authorization');
             throw new Rejection; // stop before send request
         };
@@ -66,6 +66,9 @@ class ChatWorkProviderTest extends TestCase
             // OK
         }
 
+        $this->assertArrayHasKey('redirect_uri', $actualParam);
+        $this->assertArrayHasKey('grant_type', $actualParam);
+        $this->assertArrayHasKey('code', $actualParam);
         $this->assertArrayNotHasKey('client_id', $actualParam,       'request body should not contains "client_id".');
         $this->assertArrayNotHasKey('client_secret', $actualParam,   'request body should not contains "client_secret" too.');
         $this->assertEquals("Basic {$expectedToken}", $actualHeader[0], 'client MUST use Basic Authentication');
