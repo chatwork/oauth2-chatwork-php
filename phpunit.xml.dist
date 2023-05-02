@@ -18,6 +18,7 @@
         </include>
         <exclude>
             <directory>./tests</directory>
+            <directory>./vendor/</directory>
         </exclude>
     </coverage>
     <testsuites>
