@@ -1,15 +1,14 @@
 .PHONY: test
-test: vendor composer.lock
+test: vendor
 	vendor/bin/phpunit
-
-.PHONY: setup
-setup:
-	composer install
 
 .PHONY: clean
 clean:
 	rm -rf vendor composer.lock
 
-composer.lock: setup
-vendor: setup
+vendor: composer.lock
+	composer install
+	touch vendor
 
+composer.lock:
+	composer install
