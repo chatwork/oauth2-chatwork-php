@@ -72,6 +72,18 @@ $resource_owner = $provider->getResourceOwner($accessToken);
 $ make test
 ```
 
+### Testing with Docker
+
+```
+$ docker run --rm -v $(CURDIR):/app  -w /app php:7.1-cli php vendor/bin/phpunit
+```
+
+### Testing with Nix Flakes
+
+```
+$ nix develop -c make test
+```
+
 ## License
 
 The MIT License (MIT).

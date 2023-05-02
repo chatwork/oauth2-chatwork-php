@@ -1,3 +1,15 @@
 .PHONY: test
-test:
-	docker run --rm -v $(CURDIR):/app  -w /app php:7.1-cli php vendor/bin/phpunit
+test: vendor composer.lock
+	vendor/bin/phpunit
+
+.PHONY: setup
+setup:
+	composer install
+
+.PHONY: clean
+clean:
+	rm -rf vendor composer.lock
+
+composer.lock: setup
+vendor: setup
+
