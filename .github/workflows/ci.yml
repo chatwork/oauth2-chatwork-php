@@ -12,12 +12,6 @@ jobs:
         phpunit: [9]
         composer: [2]
         include:
-          - php: 7.0
-            phpunit: 6
-            composer: 2.2
-          - php: 7.1
-            phpunit: 6
-            composer: 2.2
           - php: 7.2
             phpunit: 6
             composer: 2
