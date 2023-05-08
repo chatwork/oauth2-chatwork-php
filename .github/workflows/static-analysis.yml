@@ -4,19 +4,22 @@ on:
   push:
     branches:
       - master
-  pull_request:
+  pull_request_target:
+    types: [labeled]
 
 permissions:
   contents: read
 
 jobs:
-  run-phpunit:
+  static-analysis:
     name: Static analysis
     runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'static-analysis')
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relev
+          ref: ${{ github.sha }}
 
       - name: Setup PHP with Xdebug
         uses: shivammathur/setup-php@v2
