@@ -35,7 +35,7 @@ jobs:
           php_version: ${{ matrix.php }}
 
       - name: PHPUnit Tests
-        uses: php-actions/phpunit@v3
+        uses: php-actions/phpunit@v4
         with:
           version: ${{ matrix.phpunit }}
           php_version: ${{ matrix.php }}
