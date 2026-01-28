@@ -29,13 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - uses: php-actions/composer@v6
+      - uses: php-actions/composer@8a65f0d3c6a1d17ca4800491a40b5756a4c164f3 # v6.1.2
         with:
           version: ${{ matrix.composer }}
           php_version: ${{ matrix.php }}
 
       - name: PHPUnit Tests
-        uses: php-actions/phpunit@v4
+        uses: php-actions/phpunit@1789d1964b1bfda259b1cb42a72b65299c2cae35 # v4
         with:
           version: ${{ matrix.phpunit }}
           php_version: ${{ matrix.php }}
